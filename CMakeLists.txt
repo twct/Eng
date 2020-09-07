@@ -26,7 +26,7 @@ if (EMSCRIPTEN)
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g4 --source-map-base http://localhost:8080/")
     endif ()
     set (CMAKE_EXECUTABLE_SUFFIX ".html")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s TOTAL_MEMORY=512MB --shell-file ${CMAKE_SOURCE_DIR}/emscripten/shell.html -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_SDL_TTF=2 -s USE_SDL_MIXER=2 --preload-file ../resources --use-preload-plugins")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s TOTAL_MEMORY=512MB --shell-file ${CMAKE_SOURCE_DIR}/emscripten/shell.html -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_SDL_TTF=2 -s USE_SDL_MIXER=2 --use-preload-plugins --preload-file ./resources ")
 else (EMSCRIPTEN)
     message ("Building for desktop...")
 

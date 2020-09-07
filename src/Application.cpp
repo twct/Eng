@@ -28,6 +28,11 @@ const std::shared_ptr<Renderer> &Application::renderer()
     return m_renderer;
 }
 
+void Application::addWorld(const std::shared_ptr<World> &world)
+{
+    m_worlds.push(world);
+}
+
 #ifdef __EMSCRIPTEN__
 void Application::loopCallback(void *arg)
 {
@@ -40,7 +45,9 @@ void Application::loop()
     SDL_Event event;
 
     while (SDL_PollEvent(&event)) {
-        // input
+        if (!m_worlds.empty()) {
+            m_worlds.top()->input(event);
+        }
         switch (event.type) {
             case SDL_QUIT:
                 m_running = false;
@@ -57,18 +64,19 @@ void Application::loop()
 
     while (m_updateIterations > UPDATE_INTERVAL) {
         m_updateIterations -= UPDATE_INTERVAL;
-        // if (!m_worlds.empty()) {
-        //     m_worlds.top()->update();
-        // }
+        if (!m_worlds.empty()) {
+            m_worlds.top()->update();
+        }
     }
 
     m_cyclesLeftOver = m_updateIterations;
     m_lastFrameTime = m_currentTime;
-    // if (!m_worlds.empty()) {
-        // m_worlds.top()->draw();
-    // }
-    // m_renderer->present();
-    // SDL_RenderPresent(m_renderer);
+
+    m_renderer->clear();
+    if (!m_worlds.empty()) {
+        m_worlds.top()->draw();
+    }
+    m_renderer->present();
 
     #ifdef __EMSCRIPTEN__
     if (!m_running) {
@@ -115,12 +123,12 @@ int Application::run(int argc, char **argv)
     }
 
     if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) < 0) {
-        LOG_ERROR("IMG_Init failed.");
+        LOG_ERROR("IMG_Init failed: " << IMG_GetError());
         return 1;
     }
 
     if (TTF_Init() < 0) {
-        LOG_ERROR("TTF_Init failed.");
+        LOG_ERROR("TTF_Init failed: " << TTF_GetError());
         return 1;
     }
 
@@ -130,7 +138,7 @@ int Application::run(int argc, char **argv)
     int audio_buffers = 4096;
 
     if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, audio_buffers) != 0) {
-        LOG_ERROR("SDL_Mixer init failed.");
+        LOG_ERROR("SDL_Mixer init failed: " << Mix_GetError());
         return 1;
     }
 

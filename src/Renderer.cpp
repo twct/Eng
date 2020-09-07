@@ -16,6 +16,11 @@ const bool Renderer::active() const
     return m_renderer != nullptr;
 }
 
+SDL_Renderer *Renderer::renderer()
+{
+    return m_renderer;
+}
+
 void Renderer::scale(const float scaleX, const float scaleY)
 {
     SDL_RenderSetScale(m_renderer, scaleX, scaleY);

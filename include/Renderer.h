@@ -12,6 +12,7 @@ public:
     Renderer(SDL_Window *window);
     ~Renderer();
     const bool active() const;
+    SDL_Renderer *renderer();
     void scale(const float scaleX, const float scaleY);
     void clear(const SDL_Color &color = {0, 0, 155, 255});
     void present();

@@ -71,7 +71,7 @@ void AssetLoader::load(std::function<void()> cb)
         break;
         case ASSET_TYPE_FONT:
         {
-            auto assetFont = std::dynamic_pointer_cast<AssetFont>(asset);
+            // auto assetFont = std::dynamic_pointer_cast<AssetFont>(asset);
         }
     }
 }

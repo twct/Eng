@@ -1,6 +1,9 @@
 #include <AssetLoader.h>
+#include <stdexcept>
 #include <sstream>
 #include <Log.h>
+
+using namespace std::string_literals;
 
 Asset::Asset(const AssetType &type, const std::string &id, const std::string &path) :
     type(type),
@@ -24,7 +27,72 @@ AssetLoader::AssetLoader(const std::shared_ptr<Renderer> &renderer) :
 
 AssetLoader::~AssetLoader()
 {
-    //
+    for (auto &[key, texture] : m_textures) {
+        SDL_DestroyTexture(texture);
+    }
+
+    for (auto &[key, font] : m_fonts) {
+        TTF_CloseFont(font);
+    }
+
+    m_textures.clear();
+    m_atlases.clear();
+    m_fonts.clear();
+}
+
+SDL_Texture *AssetLoader::getTexture(const std::string &id)
+{
+    auto it = m_textures.find(id);
+
+    if (it == m_textures.end()) {
+        throw std::runtime_error("Unable to find texture: "s + id);
+    }
+
+    return it->second;
+}
+
+const Atlas &AssetLoader::getAtlas(const std::string &id)
+{
+    auto it = m_atlases.find(id);
+
+    if (it == m_atlases.end()) {
+        throw std::runtime_error("Unable to find atlas: "s + id);
+    }
+
+    return it->second;
+}
+
+TTF_Font *AssetLoader::getFont(const std::string &id)
+{
+    auto it = m_fonts.find(id);
+
+    if (it == m_fonts.end()) {
+        throw std::runtime_error("Unable to find font: "s + id);
+    }
+
+    return it->second;
+}
+
+Mix_Chunk *AssetLoader::getSfx(const std::string &id)
+{
+    auto it = m_soundEffects.find(id);
+
+    if (it == m_soundEffects.end()) {
+        throw std::runtime_error("Unable to find sound effect: "s + id);
+    }
+
+    return it->second;
+}
+
+Mix_Music *AssetLoader::getMusic(const std::string &id)
+{
+    auto it = m_music.find(id);
+
+    if (it == m_music.end()) {
+        throw std::runtime_error("Unable to find music: "s + id);
+    }
+
+    return it->second;
 }
 
 void AssetLoader::addAsset(const std::shared_ptr<Asset> &asset)
@@ -37,14 +105,29 @@ void AssetLoader::addAsset(const std::shared_ptr<Asset> &asset)
     m_assets.push_back(asset);
 }
 
+void AssetLoader::addTexture(const std::string &id, const std::string &path)
+{
+    addAsset(std::make_shared<Asset>(ASSET_TYPE_TEXTURE, id, path));
+}
+
+void AssetLoader::addAtlas(const std::string &id, const std::string &path)
+{
+    addAsset(std::make_shared<Asset>(ASSET_TYPE_ATLAS, id, path));
+}
+
 void AssetLoader::addFont(const std::string &id, const std::string &path, const unsigned int fontSize)
 {
     addAsset(std::make_shared<AssetFont>(id, path, fontSize));
 }
 
-void AssetLoader::addTexture(const std::string &id, const std::string &path)
+void AssetLoader::addSfx(const std::string &id, const std::string &path)
 {
-    addAsset(std::make_shared<Asset>(ASSET_TYPE_TEXTURE, id, path));
+    addAsset(std::make_shared<Asset>(ASSET_TYPE_SFX, id, path));
+}
+
+void AssetLoader::addMusic(const std::string &id, const std::string &path)
+{
+    addAsset(std::make_shared<Asset>(ASSET_TYPE_MUSIC, id, path));
 }
 
 void AssetLoader::load(std::function<void()> cb)
@@ -66,12 +149,69 @@ void AssetLoader::load(std::function<void()> cb)
                 break;
             }
 
+            LOG_INFO("Loaded texture: " << asset->id);
             m_textures.insert({asset->id, texture});
+        }
+        break;
+        case ASSET_TYPE_ATLAS:
+        {
+            std::shared_ptr<AtlasReader> reader = std::make_shared<AtlasReader>(asset->path);
+
+            auto &atlas = reader->atlas();
+
+            LOG_INFO("Loaded atlas: " << asset->id);
+            
+            for (auto &[key, value]: atlas.textures) {
+                this->addTexture(key, value.path);
+            }
+
+            m_atlases.insert({asset->id, atlas});
         }
         break;
         case ASSET_TYPE_FONT:
         {
-            // auto assetFont = std::dynamic_pointer_cast<AssetFont>(asset);
+            auto assetFont = std::dynamic_pointer_cast<AssetFont>(asset);
+
+            TTF_Font *font = TTF_OpenFont(assetFont->path.c_str(), assetFont->fontSize);
+
+            if (!font) {
+                LOG_ERROR("Unable to load font: " << asset->id);
+                break;
+            }
+
+            LOG_INFO("Loaded font: " << assetFont->id);
+            m_fonts.insert({assetFont->id, font});
         }
+        case ASSET_TYPE_SFX:
+        {
+            Mix_Chunk *chunk = Mix_LoadWAV(asset->path.c_str());
+
+            if (!chunk) {
+                LOG_ERROR("Unable to load sound effect: " << asset->id);
+                break;
+            }
+
+            m_soundEffects.insert({asset->id, chunk});
+        }
+        break;
+        case ASSET_TYPE_MUSIC:
+        {
+            Mix_Music *music = Mix_LoadMUS(asset->path.c_str());
+
+            if (!music) {
+                LOG_ERROR("Unable to load music: " << asset->id);
+                break;
+            }
+
+            m_music.insert({asset->id, music});
+        }
+        break;
+    }
+
+    ++m_loadedAssets;
+
+    if (m_loadedAssets >= m_assets.size()) {
+        cb();
+        m_loading = false;
     }
 }

@@ -8,16 +8,20 @@ class Application;
 
 struct Context
 {
+    std::shared_ptr<Application> app;
     std::shared_ptr<AssetLoader> assetLoader;
     std::shared_ptr<Renderer> renderer;
 };
 
+typedef std::shared_ptr<Context> CtxPtr;
+
 class World
 {
-private:
-    std::shared_ptr<Application> m_app;
+protected:
+    CtxPtr m_context;
 public:
     World(const std::shared_ptr<Application> &app);
+    virtual void init() = 0;
     virtual void draw() = 0;
     virtual void input(const SDL_Event &event) = 0;
     virtual void update() = 0;

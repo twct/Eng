@@ -2,6 +2,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
 #include <Application.h>
+#include <GameWorld.h>
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
@@ -95,6 +96,11 @@ void Application::shutdown()
     SDL_Quit();
 }
 
+void Application::pushWorld(const std::shared_ptr<World> &world)
+{
+    m_worlds.push(world);
+}
+
 int Application::run(int argc, char **argv)
 {
     RNG::seed();
@@ -141,6 +147,8 @@ int Application::run(int argc, char **argv)
         LOG_ERROR("SDL_Mixer init failed: " << Mix_GetError());
         return 1;
     }
+
+    pushWorld(std::make_shared<GameWorld>(shared_from_this()));
 
 #ifdef __EMSCRIPTEN__
     emscripten_set_main_loop_arg(&Application::loopCallback, this, -1, 1);

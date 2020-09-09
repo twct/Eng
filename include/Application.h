@@ -7,7 +7,7 @@
 #include <memory>
 #include <stack>
 
-class Application
+class Application : public std::enable_shared_from_this<Application>
 {
 private:
     bool m_running;
@@ -22,6 +22,7 @@ private:
 public:
     Application();
     void loop();
+    void pushWorld(const std::shared_ptr<World> &world);
     #ifdef __EMSCRIPTEN__
     static void loopCallback(void *arg);
     #endif

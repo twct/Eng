@@ -15,9 +15,11 @@ add_executable(${PROJECT_NAME}
     src/Application.cpp
     src/AssetLoader.cpp
     src/Camera.cpp
+    src/Drawable.cpp
     src/Log.cpp
     src/Renderer.cpp
     src/RNG.cpp
+    src/Sprite.cpp
     src/Vector2f.cpp
     src/Vector2i.cpp
     src/World.cpp

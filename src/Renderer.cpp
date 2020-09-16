@@ -1,4 +1,5 @@
 #include <Renderer.h>
+#include <Log.h>
 
 Renderer::Renderer(SDL_Window *window)
 {
@@ -14,6 +15,38 @@ Renderer::~Renderer()
 const bool Renderer::active() const
 {
     return m_renderer != nullptr;
+}
+
+const unsigned int Renderer::screenWidth() const
+{
+    int width;
+    SDL_GetRendererOutputSize(m_renderer, &width, nullptr);
+
+    return width / (int) scaleX();
+}
+
+const unsigned int Renderer::screenHeight() const
+{
+    int height;
+    SDL_GetRendererOutputSize(m_renderer, nullptr, &height);
+
+    return height / (int) scaleY();
+}
+
+const float Renderer::scaleX() const
+{
+    float scaleX;
+    SDL_RenderGetScale(m_renderer, &scaleX, nullptr);
+
+    return scaleX;
+}
+
+const float Renderer::scaleY() const
+{
+    float scaleY;
+    SDL_RenderGetScale(m_renderer, nullptr, &scaleY);
+
+    return scaleY;
 }
 
 SDL_Renderer *Renderer::renderer()

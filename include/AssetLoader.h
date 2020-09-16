@@ -67,6 +67,10 @@ public:
     void addSfx(const std::string &id, const std::string &path);
     void addMusic(const std::string &id, const std::string &path);
     void load(std::function<void()> cb);
+
+    const bool loading() const;
+    const unsigned int loadedAssets() const;
+    const unsigned int totalAssets() const;
 };
 
 #endif

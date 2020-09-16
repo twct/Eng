@@ -148,6 +148,8 @@ int Application::run(int argc, char **argv)
         return 1;
     }
 
+    m_renderer->scale(2.0, 2.0);
+
     pushWorld(std::make_shared<GameWorld>(shared_from_this()));
 
 #ifdef __EMSCRIPTEN__

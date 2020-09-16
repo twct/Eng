@@ -1,0 +1,58 @@
+{
+    "atlas": {
+        "id": "player",
+        "textures": {
+            "player": {
+                "src": "textures/player.png",
+                "w": 42,
+                "h": 42
+            }
+        },
+        "defaultAnimation": "idle",
+        "animations": {
+            "idle": {
+                "texture_id": "player",
+                "frames": [
+                    { "x": 0, "y": 0 },
+                    { "x": 1, "y": 0 },
+                    { "x": 2, "y": 0 },
+                    { "x": 3, "y": 0 },
+                    { "x": 4, "y": 0 }
+                ]
+            },
+            "run": {
+                "texture_id": "player",
+                "frames": [
+                    { "x": 0, "y": 1 },
+                    { "x": 1, "y": 1 },
+                    { "x": 2, "y": 1 },
+                    { "x": 3, "y": 1 },
+                    { "x": 4, "y": 1 },
+                    { "x": 5, "y": 1 }
+                ]
+            },
+            "jump": {
+                "texture_id": "player",
+                "frames": [
+                    { "x": 0, "y": 2},
+                    { "x": 1, "y": 2},
+                    { "x": 2, "y": 2}
+                ]
+            },
+            "fall": {
+                "texture_id": "player",
+                "frames": [
+                    { "x": 0, "y": 3}
+                ]
+            },
+            "attack": {
+                "texture_id": "player",
+                "frames": [
+                    { "x": 0, "y": 4 },
+                    { "x": 1, "y": 4 },
+                    { "x": 2, "y": 4 }
+                ]
+            }
+        }
+    }
+}

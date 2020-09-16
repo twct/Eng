@@ -16,6 +16,8 @@ add_executable(${PROJECT_NAME}
     src/AssetLoader.cpp
     src/AtlasReader.cpp
     src/Camera.cpp
+    src/Character.cpp
+    src/Clock.cpp
     src/Drawable.cpp
     src/GameWorld.cpp
     src/Log.cpp

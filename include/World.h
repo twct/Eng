@@ -21,6 +21,8 @@ protected:
     CtxPtr m_context;
 public:
     World(const std::shared_ptr<Application> &app);
+    void drawLoadingBar(int x, int y, int w, int h, float percent, const SDL_Color &fgColor, const SDL_Color &bgColor);
+    void drawLoadingScene();
     virtual void init() = 0;
     virtual void draw() = 0;
     virtual void input(const SDL_Event &event) = 0;

@@ -100,6 +100,7 @@ void AssetLoader::addAsset(const std::shared_ptr<Asset> &asset)
 #if (!TARGET_OS_IPHONE)
     std::ostringstream path_oss;
     path_oss << "resources/" << asset->path;
+    asset->path = path_oss.str();
 #endif
 
     m_assets.push_back(asset);
@@ -135,6 +136,7 @@ void AssetLoader::load(std::function<void()> cb)
     if (m_assets.size() <= 0) {
         cb();
         m_loading = false;
+        return;
     }   
 
     auto asset = m_assets.at(m_loadedAssets);
@@ -214,4 +216,19 @@ void AssetLoader::load(std::function<void()> cb)
         cb();
         m_loading = false;
     }
+}
+
+const bool AssetLoader::loading() const
+{
+    return m_loading;
+}
+
+const unsigned int AssetLoader::loadedAssets() const
+{
+    return m_loadedAssets;
+}
+
+const unsigned int AssetLoader::totalAssets() const
+{
+    return m_assets.size();
 }

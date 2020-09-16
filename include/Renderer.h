@@ -15,6 +15,10 @@ public:
     ~Renderer();
     const bool active() const;
     SDL_Renderer *renderer();
+    const unsigned int screenWidth() const;
+    const unsigned int screenHeight() const;
+    const float scaleX() const;
+    const float scaleY() const;
     void camera(const Camera &camera);
     void scale(const float scaleX, const float scaleY);
     void clear(const SDL_Color &color = {0, 0, 155, 255});

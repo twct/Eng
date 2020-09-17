@@ -23,6 +23,9 @@ public:
     void angle(const double angle);
     void opacity(const double opacity);
     void flip(const SDL_RendererFlip flip);
+    void flipn();
+    void fliph();
+    void flipv();
     virtual void draw(const std::shared_ptr<Renderer> &renderer) = 0;
 };
 

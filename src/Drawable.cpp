@@ -45,3 +45,18 @@ void Drawable::flip(const SDL_RendererFlip flip)
 {
     m_flip = flip;
 }
+
+void Drawable::flipn()
+{
+    flip(SDL_FLIP_NONE);
+}
+
+void Drawable::fliph()
+{
+    flip(SDL_FLIP_HORIZONTAL);
+}
+
+void Drawable::flipv()
+{
+    flip(SDL_FLIP_VERTICAL);
+}

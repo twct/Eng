@@ -19,6 +19,7 @@ public:
     const unsigned int screenHeight() const;
     const float scaleX() const;
     const float scaleY() const;
+    const Camera &camera() const;
     void camera(const Camera &camera);
     void scale(const float scaleX, const float scaleY);
     void clear(const SDL_Color &color = {0, 0, 155, 255});

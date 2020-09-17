@@ -59,6 +59,11 @@ void Renderer::camera(const Camera &camera)
     m_camera = camera;
 }
 
+const Camera &Renderer::camera() const
+{
+    return m_camera;
+}
+
 void Renderer::scale(const float scaleX, const float scaleY)
 {
     SDL_RenderSetScale(m_renderer, scaleX, scaleY);

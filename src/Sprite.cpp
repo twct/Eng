@@ -63,7 +63,7 @@ void Sprite::playAnimation(const std::string &animation, bool loop)
     m_isAnimating = true;
     m_loopAnimation = true;
 
-    center(atlasTexture.w / 2, atlasTexture.h / 2);
+    center(atlasTexture.w / 2, atlasTexture.h);
 }
 
 void Sprite::center(const int x, const int y)
@@ -84,6 +84,6 @@ void Sprite::draw(const std::shared_ptr<Renderer> &renderer)
         m_textureRect.x = frame.x * m_textureRect.w;
         m_textureRect.y = frame.y * m_textureRect.h;
     }
-    
+
     renderer->draw(m_texture, &m_textureRect, &m_windowRect, m_angle, &m_center, m_flip);
 }

@@ -21,9 +21,11 @@ add_executable(${PROJECT_NAME}
     src/Drawable.cpp
     src/GameWorld.cpp
     src/Log.cpp
+    src/Player.cpp
     src/Renderer.cpp
     src/RNG.cpp
     src/Sprite.cpp
+    src/TileMap.cpp
     src/Vector2f.cpp
     src/Vector2i.cpp
     src/World.cpp

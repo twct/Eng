@@ -4,23 +4,28 @@
 GameWorld::GameWorld(const std::shared_ptr<Application> &app) :
     World(app)
 {
-    // m_context->assetLoader->addTexture("player", "textures/player.png");
     m_context->assetLoader->addAtlas("player", "atlas/player.json");
+    m_context->assetLoader->addTexture("tiles", "textures/tiles.png");
 }
 
 void GameWorld::init()
 {
     LOG_INFO("GameWorld Init");
 
-    m_character = std::make_unique<Character>(m_context, m_context->assetLoader->getAtlas("player"));
+    m_player = std::make_unique<Player>(m_context);
 
-    // m_sprite.texture(m_context->assetLoader->getTexture("player"));
-    // m_sprite.position({100, 100});
+    m_tileMap = std::make_unique<TileMap>(m_context->assetLoader->getTexture("tiles"), 32);
+    m_tileMap->loadMap("levels/level.json");
+
+    auto playerSpawner = m_tileMap->getObject<PlayerSpawnerObject>("PlayerSpawner");
+    m_player->character()->sprite().position(playerSpawner->position);
+
+    m_camera = Camera(0, 0, 1280, 720);
 }
 
 void GameWorld::input(const SDL_Event &event)
 {
-
+    m_player->input(event);
 }
 
 void GameWorld::draw()
@@ -33,12 +38,18 @@ void GameWorld::draw()
         return;
     }
 
-    m_character->sprite().draw(m_context->renderer);
+    m_context->renderer->camera(m_camera);
+    m_tileMap->draw(m_context->renderer);
+    m_player->draw();
 
-    // m_sprite.draw(m_context->renderer);
+    m_camera.follow(m_player->character()->sprite().position());
 }
 
 void GameWorld::update()
 {
+    if (m_context->assetLoader->loading()) {
+        return;
+    }
 
+    m_player->update();
 }

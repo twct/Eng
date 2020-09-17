@@ -6,6 +6,8 @@
 #include <Renderer.h>
 #include <PairHash.h>
 #include <Vector2f.h>
+#include <Vector2i.h>
+#include <Collider.h>
 #include <stdexcept>
 #include <memory>
 #include <string>
@@ -38,10 +40,12 @@ private:
     int m_textureWidth, m_textureHeight;
     std::unordered_map<std::string, std::shared_ptr<TileObject>> m_objects;
     std::unordered_map<std::pair<int, int>, Tile, PairHash> m_tiles;
+    std::unordered_map<std::pair<int, int>, Collider, PairHash> m_colliders;
 public:
     TileMap(SDL_Texture *texture, const int tileSize);
     void loadMap(const std::string &mapPath);
     void addTile(const int ti, const int x, const int y);
+    void addCollider(const int x, const int y);
     void addObject(const std::string &name, const std::shared_ptr<TileObject> &object);
     template <typename T>
     const std::shared_ptr<T> getObject(const std::string &name) const
@@ -54,6 +58,8 @@ public:
 
         return std::dynamic_pointer_cast<T>(it->second);
     }
+    const std::vector<Collider> nearbyColliders(const Vector2i &position, std::vector<Collider> vec = {}) const;
+    const std::vector<Collider> nearbyColliders(const Collider &c) const;
     void draw(const std::shared_ptr<Renderer> &renderer);
 };
 

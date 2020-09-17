@@ -18,6 +18,7 @@ add_executable(${PROJECT_NAME}
     src/Camera.cpp
     src/Character.cpp
     src/Clock.cpp
+    src/Collider.cpp
     src/Drawable.cpp
     src/GameWorld.cpp
     src/Log.cpp

@@ -63,6 +63,7 @@ void TileMap::loadMap(const std::string &mapPath)
                 for (auto &t : chunk["data"]) {
                     if (t != 0) {
                         addTile(t, tx, ty);
+                        addCollider(tx, ty);
                     }
                     ++tx;
                     if (tx >= cx + width) {
@@ -94,6 +95,57 @@ void TileMap::addTile(const int ti, const int x, const int y)
 void TileMap::addObject(const std::string &name, const std::shared_ptr<TileObject> &object)
 {
     m_objects.insert({name, object});
+}
+
+void TileMap::addCollider(const int x, const int y)
+{
+    Collider collider(m_tileSize, m_tileSize);
+    collider.update({(float) x * m_tileSize, (float) y * m_tileSize});
+
+    m_colliders.insert({{x, y}, collider});
+}
+
+const std::vector<Collider> TileMap::nearbyColliders(const Vector2i &position, std::vector<Collider> vec) const
+{
+    const int x = position.x / m_tileSize;
+    const int y = position.y / m_tileSize;
+
+    SDL_Point points[] = {
+        {x - 1, y - 1}, {x, y - 1}, {x + 1, y - 1},
+        {x - 1, y}, {x, y}, {x + 1, y},
+        {x - 1, y + 1}, {x, y + 1}, {x + 1, y + 1}
+    };
+
+    for (auto &point : points) {
+        auto it = m_colliders.find({point.x, point.y});
+        if (it != m_colliders.end()) {
+            vec.push_back(it->second);
+        }
+    }
+
+    return vec;
+}
+
+const std::vector<Collider> TileMap::nearbyColliders(const Collider &c) const
+{
+    auto rect = c.rect();
+
+    if (rect.w > m_tileSize || rect.h > m_tileSize) {
+        const int xlimit = rect.w / m_tileSize;
+        const int ylimit = rect.h / m_tileSize;
+
+        std::vector<Collider> vec;
+
+        for (int x = 0; x < xlimit; ++x) {
+            for (int y = 0; y < ylimit; ++y) {
+                vec = nearbyColliders({rect.x + (x * m_tileSize), rect.y + (y * m_tileSize)}, vec);
+            }
+        }
+
+        return vec;
+    }
+
+    return nearbyColliders(Vector2i(rect.x, rect.y));
 }
 
 void TileMap::draw(const std::shared_ptr<Renderer> &renderer)

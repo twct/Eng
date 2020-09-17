@@ -10,9 +10,13 @@ Character::Character(const CtxPtr &context, const Atlas &atlas) :
     m_fric = 1.1;
     m_direction = DIRECTION_NONE;
 
-    m_sprite.texture(m_context->assetLoader->getTexture(atlas.textures.at(atlas.id).id));
+    auto atlasTexture = atlas.textures.at(atlas.id);
+
+    m_sprite.texture(m_context->assetLoader->getTexture(atlasTexture.id));
     m_sprite.atlas(atlas);
     m_sprite.playAnimation(atlas.defaultAnimation);
+
+    m_collider = Collider(atlasTexture.w, atlasTexture.h);
 }
 
 void Character::direction(const Direction &direction)
@@ -28,6 +32,11 @@ void Character::moveSpeed(const double moveSpeed)
 void Character::fallSpeed(const double fallSpeed)
 {
     m_fallSpeed = fallSpeed;
+}
+
+void Character::tileMap(const std::shared_ptr<TileMap> &tileMap)
+{
+    m_tileMap = tileMap;
 }
 
 Sprite &Character::sprite()
@@ -67,5 +76,32 @@ void Character::update()
     position.x += m_velocity.x;
     position.y += m_velocity.y;
 
+    auto colliders = m_tileMap->nearbyColliders(m_collider);
+
+    for (auto &collider : colliders) {
+        auto me = m_collider.rect();
+        auto surface = collider.rect();
+        auto result = m_collider.intersectsResult(collider);
+        // Horizontal collision
+        if (result.h < result.w) {
+
+        }
+        // Vertical collision
+        else {
+            // Floor collision
+            if (me.y < surface.y) {
+                if (m_velocity.y > 0) {
+                    position.y -= result.h;
+                    m_velocity.y = 0.0;
+                }
+            }
+            // Ceiling collision
+            else {
+
+            }
+        }
+    }
+
     m_sprite.position(position);
+    m_collider.update(position, m_sprite.center());
 }

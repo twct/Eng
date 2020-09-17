@@ -12,10 +12,11 @@ void GameWorld::init()
 {
     LOG_INFO("GameWorld Init");
 
-    m_player = std::make_unique<Player>(m_context);
-
-    m_tileMap = std::make_unique<TileMap>(m_context->assetLoader->getTexture("tiles"), 32);
+    m_tileMap = std::make_shared<TileMap>(m_context->assetLoader->getTexture("tiles"), 32);
     m_tileMap->loadMap("levels/level.json");
+
+    m_player = std::make_unique<Player>(m_context);
+    m_player->character()->tileMap(m_tileMap);
 
     auto playerSpawner = m_tileMap->getObject<PlayerSpawnerObject>("PlayerSpawner");
     m_player->character()->sprite().position(playerSpawner->position);

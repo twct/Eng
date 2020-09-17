@@ -27,6 +27,7 @@ public:
     void animationSpeed(const unsigned int animationSpeed);
     void playAnimation(const std::string &animation, bool loop = true);
     void center(const int x, const int y);
+    const SDL_Point &center() const;
     void draw(const std::shared_ptr<Renderer> &renderer) override;
 };
 

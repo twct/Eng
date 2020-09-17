@@ -72,6 +72,11 @@ void Sprite::center(const int x, const int y)
     m_center.y = y;
 }
 
+const SDL_Point &Sprite::center() const
+{
+    return m_center;
+}
+
 void Sprite::draw(const std::shared_ptr<Renderer> &renderer)
 {
     m_windowRect.x = (int) m_position.x;

@@ -88,7 +88,7 @@ void Renderer::draw(SDL_Texture *texture, const SDL_Rect *textureRect, const SDL
 {
     auto bounds = m_camera.bounds();
 
-    SDL_Rect rect = {windowRect->x - bounds.x, windowRect->h - bounds.h, windowRect->w, windowRect->h};
+    SDL_Rect rect = {windowRect->x - bounds.x, windowRect->y - bounds.y, windowRect->w, windowRect->h};
 
     SDL_RenderCopyEx(m_renderer, texture, textureRect, &rect, angle, center, flip);
 }

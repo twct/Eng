@@ -1,6 +1,7 @@
 #ifndef __VECTOR_H__
 #define __VECTOR_H__
 
+#include <iostream>
 #include <cmath>
 
 template <typename T>
@@ -53,6 +54,12 @@ struct Vector2
         vector.y = this->y / v.y;
 
         return vector;
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const Vector2<T> &v)
+    {
+        os << "Vector2" << typeid(T).name() << "(" << v.x << ", " << v.y << ")";
+        return os;
     }
 };
 

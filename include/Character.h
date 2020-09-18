@@ -30,6 +30,7 @@ public:
     void moveSpeed(const double moveSpeed);
     void fallSpeed(const double fallSpeed);
     Sprite &sprite();
+    const Collider &collider() const;
     void draw();
     void update();
 };

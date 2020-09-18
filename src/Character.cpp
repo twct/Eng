@@ -16,7 +16,7 @@ Character::Character(const CtxPtr &context, const Atlas &atlas) :
     m_sprite.atlas(atlas);
     m_sprite.playAnimation(atlas.defaultAnimation);
 
-    m_collider = Collider(atlasTexture.w, atlasTexture.h);
+    m_collider = Collider(32, 32);
 }
 
 void Character::direction(const Direction &direction)
@@ -42,6 +42,11 @@ void Character::tileMap(const std::shared_ptr<TileMap> &tileMap)
 Sprite &Character::sprite()
 {
     return m_sprite;
+}
+
+const Collider &Character::collider() const
+{
+    return m_collider;
 }
 
 void Character::draw()
@@ -89,7 +94,7 @@ void Character::update()
         // Vertical collision
         else {
             // Floor collision
-            if (me.y < surface.y) {
+            if (me.y + me.h < surface.y + surface.y) {
                 if (m_velocity.y > 0) {
                     position.y -= result.h;
                     m_velocity.y = 0.0;
@@ -103,5 +108,5 @@ void Character::update()
     }
 
     m_sprite.position(position);
-    m_collider.update(position, m_sprite.center());
+    m_collider.update(position, {0, 9});
 }

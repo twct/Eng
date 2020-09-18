@@ -36,6 +36,13 @@ void Sprite::texture(SDL_Texture *texture)
 void Sprite::atlas(const Atlas &atlas)
 {
     m_atlas = atlas;
+
+    auto it = atlas.textures.find(atlas.id);
+
+    if (it != atlas.textures.end()) {
+        auto texture = it->second;
+        center(texture.w / 2, texture.h);
+    }
 }
 
 void Sprite::animationSpeed(const unsigned int animationSpeed)
@@ -63,7 +70,7 @@ void Sprite::playAnimation(const std::string &animation, bool loop)
     m_isAnimating = true;
     m_loopAnimation = true;
 
-    center(atlasTexture.w / 2, atlasTexture.h);
+    // center(atlasTexture.w / 2, atlasTexture.h);
 }
 
 void Sprite::center(const int x, const int y)

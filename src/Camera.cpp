@@ -1,4 +1,5 @@
 #include <Camera.h>
+#include <Log.h>
 
 Camera::Camera() :
     Camera(0, 0, 0, 0)
@@ -33,8 +34,8 @@ void Camera::center(const int x, const int y)
 
 void Camera::center(const Vector2f &position)
 {
-    m_cameraPosition.x = position.x / (m_cameraBounds.w / 2);
-    m_cameraPosition.y = position.y / (m_cameraBounds.h / 2);
+    m_cameraBounds.x = position.x / (m_cameraBounds.w / 2);
+    m_cameraBounds.y = position.y / (m_cameraBounds.h / 2);
 }
 
 void Camera::follow(const Vector2f &position)

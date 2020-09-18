@@ -39,6 +39,6 @@ const SDL_Rect Collider::intersectsResult(const Collider &c) const
 
 void Collider::update(const Vector2f &position, const SDL_Point &origin)
 {
-    m_rect.x = (int) position.x;
-    m_rect.y = (int) position.y;
+    m_rect.x = (int) position.x + origin.x;
+    m_rect.y = (int) position.y + origin.y;
 }

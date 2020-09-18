@@ -80,6 +80,19 @@ void Renderer::present()
     SDL_RenderPresent(m_renderer);
 }
 
+void Renderer::drawRect(SDL_Rect *rect, const SDL_Color &color)
+{
+    auto bounds = m_camera.bounds();
+
+    SDL_Rect object = {rect->x - bounds.x, rect->y - bounds.y, rect->w, rect->h};
+
+    SDL_Color old;
+    SDL_GetRenderDrawColor(m_renderer, &old.r, &old.g, &old.b, &old.a);
+    SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(m_renderer, &object);
+    SDL_SetRenderDrawColor(m_renderer, old.r, old.g, old.b, old.a);
+}
+
 void Renderer::draw(SDL_Texture *texture, const SDL_Rect *textureRect, const SDL_Rect *windowRect)
 {
     auto bounds = m_camera.bounds();

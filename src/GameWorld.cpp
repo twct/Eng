@@ -4,6 +4,8 @@
 GameWorld::GameWorld(const std::shared_ptr<Application> &app) :
     World(app)
 {
+    m_debugDraw = false;
+
     m_context->assetLoader->addAtlas("player", "atlas/player.json");
     m_context->assetLoader->addTexture("tiles", "textures/tiles.png");
 }
@@ -27,6 +29,16 @@ void GameWorld::init()
 void GameWorld::input(const SDL_Event &event)
 {
     m_player->input(event);
+    switch (event.type) {
+        case SDL_KEYUP:
+            switch (event.key.keysym.sym) {
+                case SDLK_F3:
+                    m_debugDraw = !m_debugDraw;
+                    LOG_INFO("Debug Draw: " << (m_debugDraw ? "On" : "Off"));
+                break;
+            }
+        break;
+    }
 }
 
 void GameWorld::draw()
@@ -44,6 +56,17 @@ void GameWorld::draw()
     m_player->draw();
 
     m_camera.follow(m_player->character()->sprite().position());
+
+    if (m_debugDraw) {
+        for (auto &[k, c] : m_tileMap->colliders()) {
+            auto rect = c.rect();
+            m_context->renderer->drawRect(&rect);
+        }
+        auto rect = m_player->character()->collider().rect();
+        m_context->renderer->drawRect(&rect);
+    }
+
+    // LOG_INFO(m_player->character()->sprite().position());
 }
 
 void GameWorld::update()

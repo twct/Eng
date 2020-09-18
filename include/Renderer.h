@@ -24,6 +24,7 @@ public:
     void scale(const float scaleX, const float scaleY);
     void clear(const SDL_Color &color = {0, 0, 155, 255});
     void present();
+    void drawRect(SDL_Rect *rect, const SDL_Color &color = {200, 0, 0, 50});
     void draw(SDL_Texture *texture, const SDL_Rect *textureRect, const SDL_Rect *windowRect);
     void draw(SDL_Texture *texture, const SDL_Rect *textureRect, const SDL_Rect *windowRect, const double angle, const SDL_Point *center, const SDL_RendererFlip flip);
 };

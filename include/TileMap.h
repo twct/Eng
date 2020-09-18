@@ -60,6 +60,7 @@ public:
     }
     const std::vector<Collider> nearbyColliders(const Vector2i &position, std::vector<Collider> vec = {}) const;
     const std::vector<Collider> nearbyColliders(const Collider &c) const;
+    const std::unordered_map<std::pair<int, int>, Collider, PairHash> &colliders();
     void draw(const std::shared_ptr<Renderer> &renderer);
 };
 

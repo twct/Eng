@@ -105,6 +105,11 @@ void TileMap::addCollider(const int x, const int y)
     m_colliders.insert({{x, y}, collider});
 }
 
+const std::unordered_map<std::pair<int, int>, Collider, PairHash> &TileMap::colliders()
+{
+    return m_colliders;
+}
+
 const std::vector<Collider> TileMap::nearbyColliders(const Vector2i &position, std::vector<Collider> vec) const
 {
     const int x = position.x / m_tileSize;

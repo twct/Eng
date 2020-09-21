@@ -5,6 +5,7 @@ Renderer::Renderer(SDL_Window *window)
 {
     m_paused = false;
     m_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
 }
 
 Renderer::~Renderer()

@@ -9,7 +9,8 @@ class GameWorld : public World
 {
 private:
     bool m_debugDraw;
-    std::unique_ptr<Player> m_player;
+    // std::unique_ptr<Player> m_player;
+    std::unique_ptr<Character> m_character;
     std::shared_ptr<TileMap> m_tileMap;
     Camera m_camera;
 public:

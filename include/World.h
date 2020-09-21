@@ -1,6 +1,7 @@
 #ifndef __WORLD_H__
 #define __WORLD_H__
 
+#include <entt/entity/registry.hpp>
 #include <AssetLoader.h>
 #include <memory>
 
@@ -11,6 +12,7 @@ struct Context
     std::shared_ptr<Application> app;
     std::shared_ptr<AssetLoader> assetLoader;
     std::shared_ptr<Renderer> renderer;
+    entt::registry registry;
 };
 
 typedef std::shared_ptr<Context> CtxPtr;

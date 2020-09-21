@@ -17,21 +17,23 @@ class Character
 {
 private:
     CtxPtr m_context;
-    Sprite m_sprite;
-    Collider m_collider;
-    Vector2f m_velocity;
-    std::shared_ptr<TileMap> m_tileMap;
+    // Sprite m_sprite;
+    // Collider m_collider;
+    // Vector2f m_velocity;
+    // std::shared_ptr<TileMap> m_tileMap;
     double m_moveSpeed, m_fallSpeed, m_fric;
+    Sprite *m_sprite;
+    Vector2f *m_transform;
     Direction m_direction;
 public:
     Character(const CtxPtr &context, const Atlas &atlas);
-    void tileMap(const std::shared_ptr<TileMap> &tileMap);
+    // void tileMap(const std::shared_ptr<TileMap> &tileMap);
     void direction(const Direction &direction);
     void moveSpeed(const double moveSpeed);
     void fallSpeed(const double fallSpeed);
-    Sprite &sprite();
-    const Collider &collider() const;
-    void draw();
+    // Sprite &sprite();
+    // const Collider &collider() const;
+    // void draw();
     void update();
 };
 

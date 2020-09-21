@@ -8,17 +8,17 @@
 
 class Player
 {
-private:
-    CtxPtr m_context;
-    std::shared_ptr<Character> m_character;
-    std::shared_ptr<TileMap> m_tileMap;
-    bool m_right, m_left;
-public:
-    Player(CtxPtr context);
-    const std::shared_ptr<Character> &character();
-    void input(const SDL_Event &event);
-    void draw();
-    void update();
+// private:
+//     CtxPtr m_context;
+//     std::shared_ptr<Character> m_character;
+//     std::shared_ptr<TileMap> m_tileMap;
+//     bool m_right, m_left;
+// public:
+//     Player(CtxPtr context);
+//     const std::shared_ptr<Character> &character();
+//     void input(const SDL_Event &event);
+//     void draw();
+//     void update();
 };
 
 #endif

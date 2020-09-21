@@ -8,7 +8,7 @@ Character::Character(const CtxPtr &context, const Atlas &atlas) :
     fallSpeed(0.05);
 
     m_fric = 1.1;
-    m_direction = DIRECTION_NONE;
+    m_direction = Direction::None;
 
     auto atlasTexture = atlas.textures.at(atlas.id);
 
@@ -59,17 +59,17 @@ void Character::update()
     auto position = m_sprite.position();
 
     switch (m_direction) {
-        case DIRECTION_LEFT:
+        case Direction::Left:
             m_velocity.x -= m_moveSpeed;
             m_sprite.playAnimation("run");
             m_sprite.fliph();
         break;
-        case DIRECTION_RIGHT:
+        case Direction::Right:
             m_velocity.x += m_moveSpeed;
             m_sprite.playAnimation("run");
             m_sprite.flipn();
         break;
-        case DIRECTION_NONE:
+        case Direction::None:
             m_sprite.playAnimation("idle");
         break;
     }

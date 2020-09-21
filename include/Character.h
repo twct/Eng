@@ -6,11 +6,11 @@
 #include <Sprite.h>
 #include <World.h>
 
-enum Direction
+enum class Direction
 {
-    DIRECTION_NONE,
-    DIRECTION_RIGHT,
-    DIRECTION_LEFT
+    None,
+    Right,
+    Left
 };
 
 class Character

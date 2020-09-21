@@ -13,7 +13,7 @@ Asset::Asset(const AssetType &type, const std::string &id, const std::string &pa
 }
 
 AssetFont::AssetFont(const std::string &id, const std::string &path, const unsigned int fontSize) :
-    Asset(ASSET_TYPE_FONT, id, path),
+    Asset(AssetType::Font, id, path),
     fontSize(fontSize)
 {
 }
@@ -108,12 +108,12 @@ void AssetLoader::addAsset(const std::shared_ptr<Asset> &asset)
 
 void AssetLoader::addTexture(const std::string &id, const std::string &path)
 {
-    addAsset(std::make_shared<Asset>(ASSET_TYPE_TEXTURE, id, path));
+    addAsset(std::make_shared<Asset>(AssetType::Texture, id, path));
 }
 
 void AssetLoader::addAtlas(const std::string &id, const std::string &path)
 {
-    addAsset(std::make_shared<Asset>(ASSET_TYPE_ATLAS, id, path));
+    addAsset(std::make_shared<Asset>(AssetType::Atlas, id, path));
 }
 
 void AssetLoader::addFont(const std::string &id, const std::string &path, const unsigned int fontSize)
@@ -123,12 +123,12 @@ void AssetLoader::addFont(const std::string &id, const std::string &path, const 
 
 void AssetLoader::addSfx(const std::string &id, const std::string &path)
 {
-    addAsset(std::make_shared<Asset>(ASSET_TYPE_SFX, id, path));
+    addAsset(std::make_shared<Asset>(AssetType::SoundEffect, id, path));
 }
 
 void AssetLoader::addMusic(const std::string &id, const std::string &path)
 {
-    addAsset(std::make_shared<Asset>(ASSET_TYPE_MUSIC, id, path));
+    addAsset(std::make_shared<Asset>(AssetType::Music, id, path));
 }
 
 void AssetLoader::load(std::function<void()> cb)
@@ -142,7 +142,7 @@ void AssetLoader::load(std::function<void()> cb)
     auto asset = m_assets.at(m_loadedAssets);
 
     switch (asset->type) {
-        case ASSET_TYPE_TEXTURE:
+        case AssetType::Texture:
         {
             SDL_Texture *texture = IMG_LoadTexture(m_renderer, asset->path.c_str());
 
@@ -155,7 +155,7 @@ void AssetLoader::load(std::function<void()> cb)
             m_textures.insert({asset->id, texture});
         }
         break;
-        case ASSET_TYPE_ATLAS:
+        case AssetType::Atlas:
         {
             std::shared_ptr<AtlasReader> reader = std::make_shared<AtlasReader>(asset->path);
 
@@ -170,7 +170,7 @@ void AssetLoader::load(std::function<void()> cb)
             m_atlases.insert({asset->id, atlas});
         }
         break;
-        case ASSET_TYPE_FONT:
+        case AssetType::Font:
         {
             auto assetFont = std::dynamic_pointer_cast<AssetFont>(asset);
 
@@ -184,7 +184,7 @@ void AssetLoader::load(std::function<void()> cb)
             LOG_INFO("Loaded font: " << assetFont->id);
             m_fonts.insert({assetFont->id, font});
         }
-        case ASSET_TYPE_SFX:
+        case AssetType::SoundEffect:
         {
             Mix_Chunk *chunk = Mix_LoadWAV(asset->path.c_str());
 
@@ -196,7 +196,7 @@ void AssetLoader::load(std::function<void()> cb)
             m_soundEffects.insert({asset->id, chunk});
         }
         break;
-        case ASSET_TYPE_MUSIC:
+        case AssetType::Music:
         {
             Mix_Music *music = Mix_LoadMUS(asset->path.c_str());
 

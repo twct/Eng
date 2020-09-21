@@ -13,13 +13,13 @@
 #include <string>
 #include <vector>
 
-enum AssetType
+enum class AssetType
 {
-    ASSET_TYPE_TEXTURE,
-    ASSET_TYPE_ATLAS,
-    ASSET_TYPE_FONT,
-    ASSET_TYPE_SFX,
-    ASSET_TYPE_MUSIC
+    Texture,
+    Atlas,
+    Font,
+    SoundEffect,
+    Music
 };
 
 struct Asset

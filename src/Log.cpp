@@ -20,16 +20,16 @@ std::string Log::header(const LogLevel &level)
     ss << "[";
 
     switch (level) {
-        case LOG_LEVEL_ERROR:
+        case LogLevel::Error:
             ss << "ERROR";
         break;
-        case LOG_LEVEL_INFO:
+        case LogLevel::Info:
             ss << "INFO";
         break;
-        case LOG_LEVEL_DEBUG:
+        case LogLevel::Debug:
             ss << "DEBUG";
         break;
-        case LOG_LEVEL_WARNING:
+        case LogLevel::Warning:
             ss << "WARNING";
         break;
     }

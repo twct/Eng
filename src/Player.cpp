@@ -48,15 +48,15 @@ void Player::draw()
 void Player::update()
 {
     if (m_left && !m_right) {
-        m_character->direction(DIRECTION_LEFT);
+        m_character->direction(Direction::Left);
     }
     
     if (!m_left && m_right) {
-        m_character->direction(DIRECTION_RIGHT);
+        m_character->direction(Direction::Right);
     }
 
     if (!m_left && !m_right) {
-        m_character->direction(DIRECTION_NONE);
+        m_character->direction(Direction::None);
     }
 
     m_character->update();

@@ -66,7 +66,7 @@ public:
     void addFont(const std::string &id, const std::string &path, const unsigned int fontSize = 12);
     void addSfx(const std::string &id, const std::string &path);
     void addMusic(const std::string &id, const std::string &path);
-    void load(std::function<void()> cb);
+    void load(const std::function<void()> &&cb);
 
     const bool loading() const;
     const unsigned int loadedAssets() const;

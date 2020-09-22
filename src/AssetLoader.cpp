@@ -131,7 +131,7 @@ void AssetLoader::addMusic(const std::string &id, const std::string &path)
     addAsset(std::make_shared<Asset>(AssetType::Music, id, path));
 }
 
-void AssetLoader::load(std::function<void()> cb)
+void AssetLoader::load(const std::function<void()> &&cb)
 {
     if (m_assets.size() <= 0) {
         cb();
